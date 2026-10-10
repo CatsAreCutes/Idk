@@ -4,7 +4,7 @@
   const $ = id => document.getElementById(id);
 
   // Replace this with the actual URL of The Forgotten Arcade.
-  const FORGOTTEN_ARCADE_URL = "https://example.com";
+  const FORGOTTEN_ARCADE_URL = "https://forgotten-arcade.onrender.com";
 
   const items = [
     {
