@@ -3,11 +3,14 @@
 
   const $ = id => document.getElementById(id);
 
+  // Replace this with the actual URL of The Forgotten Arcade.
+  const FORGOTTEN_ARCADE_URL = "https://example.com";
+
   const items = [
     {
       id: "01",
       title: "A cloud with a job",
-      icon: "☁️",
+      icon: "☁️ 😀",
       tag: "odd",
       color: "#dbe8ed",
       description: "It has been assigned to float above one specific house. It takes its job extremely seriously.",
@@ -269,6 +272,10 @@
     $("detailTitle").textContent = item.title;
     $("detailDescription").textContent = item.description;
 
+    // Show the redirect button only for The Forgotten Arcade.
+    $("arcadeBtn").style.display =
+      item.id === "15" ? "block" : "none";
+
     $("surprise").style.display = "none";
     $("surprise").textContent = "";
 
@@ -294,6 +301,11 @@
 
   $("close").addEventListener("click", () => {
     $("modal").classList.remove("open");
+  });
+
+  // Redirect to The Forgotten Arcade when its button is clicked.
+  $("arcadeBtn").addEventListener("click", () => {
+    window.location.href = FORGOTTEN_ARCADE_URL;
   });
 
   $("modal").addEventListener("click", event => {
