@@ -47,6 +47,8 @@ footer{text-align:center;padding:45px 10px;color:#85857b;font:11px monospace}
 #close{position:absolute;right:15px;top:15px;border:0;background:transparent;font-size:24px}
 #bigIcon{font-size:70px}
 #surprise{border:1px solid var(--line);padding:15px;margin-top:15px;line-height:1.8;display:none;white-space:pre-wrap}
+#arcadeBtn{display:none;margin-top:12px;background:var(--accent);color:white;border:0;padding:14px 18px;border-radius:5px;width:100%;font-weight:bold}
+#arcadeBtn:hover{filter:brightness(.92)}
 @media(max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:480px){.grid{grid-template-columns:1fr}main{margin:30px auto}h1{letter-spacing:-3px}.visual{height:190px}}
 </style>
@@ -94,6 +96,7 @@ footer{text-align:center;padding:45px 10px;color:#85857b;font:11px monospace}
     <h2 id="detailTitle"></h2>
     <p class="muted" id="detailDescription"></p>
     <button id="newBtn2">Show me another →</button>
+    <button id="arcadeBtn">Redirect to The Forgotten Arcade ↗</button>
     <div id="surprise"></div>
   </div>
 </div>
@@ -104,8 +107,11 @@ footer{text-align:center;padding:45px 10px;color:#85857b;font:11px monospace}
 
 const $ = id => document.getElementById(id);
 
+// Replace this with the actual URL of The Forgotten Arcade website.
+const FORGOTTEN_ARCADE_URL = "https://example.com";
+
 const items = [
- {id:"01",title:"A cloud with a job",icon:"☁️",tag:"odd",color:"#dbe8ed",description:"It has been assigned to float above one specific house. It takes its job extremely seriously.",extra:"EMPLOYEE RECORD\nPosition: Cloud\nDepartment: Weather\nPerformance: Mostly cloudy\nDays off: Never"},
+ {id:"01",title:"A cloud with a job",icon:"☁️ 😀",tag:"odd",color:"#dbe8ed",description:"It has been assigned to float above one specific house. It takes its job extremely seriously.",extra:"EMPLOYEE RECORD\nPosition: Cloud\nDepartment: Weather\nPerformance: Mostly cloudy\nDays off: Never"},
  {id:"02",title:"Rainy afternoon",icon:"🌧️",tag:"cozy",color:"#d6e0ef",description:"A window, a blanket, and the sound of rain tapping on the roof. Absolutely nowhere else to be.",extra:"CURRENT CONDITIONS\nRain: Gentle\nTea: Optional\nObligations: Postponed\nMood: Excellent"},
  {id:"03",title:"The tiny museum",icon:"🏛️",tag:"creative",color:"#f3d8bc",description:"An imaginary museum containing objects that nobody else would think to keep.",extra:"TODAY'S EXHIBITION\nOne interesting pebble.\nA receipt from 2009.\nA button with no shirt.\nA drawing made during math class."},
  {id:"04",title:"Extremely suspicious frog",icon:"🐸",tag:"odd",color:"#d9e9c4",description:"This frog knows something about the moon. It will not elaborate.",extra:"INTERROGATION NOTES\nQuestion: What do you know?\nAnswer: Ribbit.\nQuestion: About the moon?\nAnswer: ...ribbit.\nCase status: UNRESOLVED"},
@@ -125,7 +131,6 @@ const items = [
 let filter = "all";
 let query = "";
 let current = null;
-let seen = new Set();
 
 function getSaved(){
  try{return JSON.parse(localStorage.getItem("littleThingsSaved")||"[]")}
@@ -215,12 +220,16 @@ function render(){
 
 function openItem(item){
  current = item;
- seen.add(item.id);
 
  $("bigIcon").textContent = item.icon;
  $("detailTag").textContent = "COLLECTION / "+item.id;
  $("detailTitle").textContent = item.title;
  $("detailDescription").textContent = item.description;
+
+ // Only show the redirect button for The Forgotten Arcade.
+ const isArcade = item.id === "15";
+ $("arcadeBtn").style.display = isArcade ? "block" : "none";
+
  $("surprise").style.display = "none";
  $("surprise").textContent = "";
  $("modal").classList.add("open");
@@ -236,6 +245,11 @@ function randomItem(){
 $("newBtn").addEventListener("click",randomItem);
 $("newBtn2").addEventListener("click",randomItem);
 $("close").addEventListener("click",()=>$("modal").classList.remove("open"));
+
+$("arcadeBtn").addEventListener("click",()=>{
+ // Open the arcade in the current tab.
+ window.location.href = FORGOTTEN_ARCADE_URL;
+});
 
 $("modal").addEventListener("click",event=>{
  if(event.target===$("modal")) $("modal").classList.remove("open");
